@@ -1,0 +1,31 @@
+ FILE *prvy,*druhy,*treti;
+  char a,b;
+  int medzera=0;
+
+  
+  
+  prvy = fopen("prvy.txt","r");
+  druhy = fopen("druhy.txt","r");
+  treti = fopen("treti.txt","w");
+  
+  while (a=getc(prvy), b=getc(druhy), (feof(prvy)==0 || feof(druhy)==0))
+  	{
+    if (a=='\n') a=' ';
+    if (b=='\n') b=' ';
+    if (medzera%2==0 && (a!=' '|| b!=' ')) fprintf(treti, "%c",a);
+    if (medzera%2==1 && (b!=' '|| a!=' ')) fprintf(treti, "%c",b);
+  	//if (a == ' ' && (a!=b)) ungetc(b, druhy);
+    // if (b == ' ' && (a!=b)) ungetc(a, prvy);
+    if (a == ' ' && (a!=b)) fseek(druhy, -1, SEEK_CUR);
+    if (b == ' ' && (a!=b)) fseek(prvy, -1, SEEK_CUR);
+    if (a ==' ' && b == ' ') 
+    	{
+      	medzera++;
+    	if (medzera%2==0) fprintf(treti, " +");
+   	    if (medzera%2==1) fprintf(treti, " -",b);
+    	}
+    
+  	}
+    
+
+  return 0;
